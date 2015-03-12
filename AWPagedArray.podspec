@@ -1,3 +1,4 @@
+# coding: utf-8
 Pod::Spec.new do |s|
   s.name         = 'AWPagedArray'
   s.version      = '0.3.0'
