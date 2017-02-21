@@ -34,7 +34,7 @@
  * This class is inspired by NSFetchRequest's batching mechanism which returns a custom NSArray subclass.
  * @see NSFetchRequest fetchBatchSize
  */
-@interface AWPagedArray : NSProxy
+@interface AWPagedArray <__covariant ObjectType> : NSProxy
 
 /**
  * The designated initializer for this class
@@ -56,7 +56,7 @@
  * @throws AWPagedArrayObjectsPerPageMismatchException when page size mismatch the initialized objectsPerPage property
  * for any page other than the last.
  */
-- (void)setObjects:(NSArray *)objects forPage:(NSUInteger)page;
+- (void)setObjects:(NSArray<ObjectType> *)objects forPage:(NSUInteger)page;
 
 - (NSUInteger)pageForIndex:(NSUInteger)index;
 - (NSIndexSet *)indexSetForPage:(NSUInteger)page;
@@ -69,14 +69,17 @@
 /**
  * Contains NSArray instances of pages, backing the data
  */
-@property (nonatomic, readonly) NSDictionary *pages;
+@property (nonatomic, readonly) NSDictionary<NSNumber *, NSArray<ObjectType> *> *pages;
 
 @property (nonatomic, weak) id<AWPagedArrayDelegate> delegate;
 
-- (void)enumerateExistingObjectsUsingBlock:(void (^)(id obj, NSUInteger idx, BOOL *stop))block;
+- (void)enumerateExistingObjectsUsingBlock:(void (^)(ObjectType obj, NSUInteger idx, BOOL *stop))block;
+- (NSArray<ObjectType> *)existingObjects;
 - (void)invalidateContents;
 
-- (id)rawObjectAtIndex:(NSUInteger)index;
+- (ObjectType)rawObjectAtIndex:(NSUInteger)index;
+
+- (NSArray<ObjectType> *)toArray;
 
 @end
 

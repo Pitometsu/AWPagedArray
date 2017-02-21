@@ -113,11 +113,32 @@
     }
 }
 
+- (NSArray *)existingObjects
+{
+    NSMutableArray *existingObjects = [[NSMutableArray alloc] initWithCapacity:self.totalCount];
+
+    for (NSInteger pageIndex = _initialPageIndex;
+         pageIndex < [self numberOfPages] + _initialPageIndex;
+         pageIndex++) {
+        NSArray *page = _pages[@(pageIndex)];
+
+        if (page) {
+            [existingObjects addObjectsFromArray:page];
+        }
+    }
+    return [existingObjects copy];
+}
+
 - (void)invalidateContents
 {
     [_pages removeAllObjects];
 
     _needsUpdateProxiedArray = YES;
+}
+
+- (NSArray *)toArray
+{
+    return (NSArray *)self;
 }
 
 #pragma mark - NSArray overrides
